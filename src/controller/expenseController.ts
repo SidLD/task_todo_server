@@ -6,8 +6,8 @@ import { IExpenses } from "../util/interface";
 
 // 1. Add Expense
 export const addExpense = async (req: any, res: any) => {
-    const { userId, value, date } = req.body;
-
+    const { userId } = req.params;
+    const { amount, description } = req.body;
     try {
         const user = await User.findById(userId);
         if (!user) {
@@ -17,8 +17,8 @@ export const addExpense = async (req: any, res: any) => {
         // Create a new expense record
         await Expense.create({
             user: user._id,
-            value,
-            date,
+            value: amount,
+            date: new Date(),
         });
 
         res.status(201).json({ message: 'Expense added successfully' });

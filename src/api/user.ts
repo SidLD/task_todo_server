@@ -1,25 +1,22 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import {  login, register } from '../controller/userController';
+import {  getBudget, login, register, updateBudget } from '../controller/userController';
 import { verifyToken } from '../util/verify';
-import { addBudget, deleteBudget, getBudgets, updateBudget } from '../controller/budgetController';
-import { addExpense } from '../controller/expenseController';
+import { addExpense, deleteExpense, getExpenses, updateExpense } from '../controller/expenseController';
 dotenv.config()
 const userAPI = express()
 
 userAPI.post('/register', register);
 userAPI.post('/login', login);
 
-userAPI.post('/budget', verifyToken ,addBudget);
-userAPI.get('/budget/:userId', verifyToken ,getBudgets);
-userAPI.put('/budget/:budgetId', verifyToken ,updateBudget);
-userAPI.delete('/budget/:budgetId', verifyToken ,deleteBudget);
+userAPI.get('/budget/:userId', verifyToken ,getBudget);
+userAPI.put('/budget/:userId', verifyToken ,updateBudget);
 
 
-userAPI.post('/expense', verifyToken , addExpense);
-userAPI.get('/expense/:userId', verifyToken ,getBudgets);
-userAPI.put('/expense/:expenseId', verifyToken ,updateBudget);
-userAPI.delete('/expense/:expenseId', verifyToken ,deleteBudget);
+userAPI.post('/expense/:userId', verifyToken , addExpense);
+userAPI.get('/expense/:userId', verifyToken ,getExpenses);
+userAPI.put('/expense/:expenseId', verifyToken ,updateExpense);
+userAPI.delete('/expense/:expenseId', verifyToken ,deleteExpense);
 
 
 export default userAPI

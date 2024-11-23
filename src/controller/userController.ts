@@ -3,6 +3,7 @@ import { IUser } from "../util/interface";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import User from "../models/userSchema";
+import Expense from "../models/expenseSchema";
 
 export const register = async (req: any, res: any) => {
     try {
@@ -62,3 +63,62 @@ export const login = async (req: any, res: any) => {
       res.status(400).send({message:"Invalid Data or Email Already Taken"})
   }
 }
+
+export const updateBudget = async (req: any, res: any) => {
+    const { userId } = req.params;
+    const { value } = req.body;
+    try {
+        const budget : IUser | null = await User.findOneAndUpdate(
+          {
+              _id: userId
+          },
+          {
+              budget : value,
+          }
+        );
+  
+        res.status(200).json({ message: 'Budget updated successfully' , budget});
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+export const getBudget = async (req: any, res: any) => {
+    const { userId } = req.params;
+    try {
+        // Update the user's budget
+        const user: IUser | null = await User.findById(userId);
+
+       if(user){
+            // Get all the expenses for the user
+            const expenses = await Expense.find({ user: userId });
+
+            // Calculate the total expenses
+            const totalExpenses = expenses.reduce((total, expense) => total + expense.value, 0);
+
+            // Calculate the balance (budget - totalExpenses)
+            const balance = user.budget ? user.budget - totalExpenses : 0;
+
+            // Respond with the updated budget, total expenses, and balance
+            res.status(200).json({
+                message: 'Budget Fetch successfully',
+                budget: user?.budget || 0,
+                totalExpenses,
+                balance
+            });
+       }
+       else{
+            res.status(200).json({
+                message: 'Budget Not FOund',
+                budget: 0,
+                totalExpenses: 0,
+                balance: 0
+            });
+       }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
+  
