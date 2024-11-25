@@ -2,7 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 import {  getBudget, login, register, updateBudget } from '../controller/userController';
 import { verifyToken } from '../util/verify';
-import { addExpense, deleteExpense, getExpenses, updateExpense } from '../controller/expenseController';
+import { addExpense, deleteExpense, getExpenses, resetExpenses, updateExpense } from '../controller/expenseController';
 dotenv.config()
 const userAPI = express()
 
@@ -16,6 +16,7 @@ userAPI.put('/budget/:userId', verifyToken ,updateBudget);
 userAPI.post('/expense/:userId', verifyToken , addExpense);
 userAPI.get('/expense/:userId', verifyToken ,getExpenses);
 userAPI.put('/expense/:expenseId', verifyToken ,updateExpense);
+userAPI.post('/expenses/reset/:userId', verifyToken ,resetExpenses);
 userAPI.delete('/expense/:expenseId', verifyToken ,deleteExpense);
 
 

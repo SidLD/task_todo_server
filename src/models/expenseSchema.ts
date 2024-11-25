@@ -9,7 +9,8 @@ const expenseSchema = new Schema<IExpenses>({
         ref: "User", // Self-reference for user
     },
     value: { type: Number, required: true },
-    date: { type: Date, required: true }
+    date: { type: Date, required: true },
+    description: String
 });
 
 const Expense = mongoose.model<IExpenses>('Expense', expenseSchema);

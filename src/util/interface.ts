@@ -16,5 +16,6 @@ export interface IUser {
 export interface IExpenses {
     user: IUser
     value: number,
-    date: Date
+    date: Date,
+    description: String
 }

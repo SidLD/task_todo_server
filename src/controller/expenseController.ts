@@ -7,7 +7,7 @@ import { IExpenses } from "../util/interface";
 // 1. Add Expense
 export const addExpense = async (req: any, res: any) => {
     const { userId } = req.params;
-    const { amount, description } = req.body;
+    const { amount, description , date} = req.body;
     try {
         const user = await User.findById(userId);
         if (!user) {
@@ -18,7 +18,8 @@ export const addExpense = async (req: any, res: any) => {
         await Expense.create({
             user: user._id,
             value: amount,
-            date: new Date(),
+            date: new Date(date),
+            description
         });
 
         res.status(201).json({ message: 'Expense added successfully' });
@@ -46,13 +47,13 @@ export const getExpenses = async (req: any, res: any) => {
 // 3. Update Expense (Update)
 export const updateExpense = async (req: any, res: any) => {
     const { expenseId } = req.params;
-    const { value, date } = req.body;
+    const { value, date, description } = req.body;
 
     try {
         // Find the specific expense entry by its ID and update it
         const expense: IExpenses | null = await Expense.findOneAndUpdate(
             { _id: expenseId },
-            { value, date },
+            { value, date , description},
             { new: true } // Return the updated expense
         );
 
@@ -80,6 +81,26 @@ export const deleteExpense = async (req: any, res: any) => {
         }
 
         res.status(200).json({ message: 'Expense deleted successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+export const resetExpenses = async (req: any, res: any) => {
+    const { userId } = req.params;
+
+    try {
+        // Find the specific expense entry by its ID and update it
+        const expense: any = await Expense.deleteMany(
+            { user: userId },
+        );
+
+        if (!expense) {
+            return res.status(404).json({ message: 'Expense not found' });
+        }
+
+        res.status(200).json({ message: 'Expense updated successfully', expense });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Server error' });
