@@ -18,7 +18,6 @@ export const register = async (req: any, res: any) => {
       const newUser = await User.create({
         username: username,
         password: hashedPassword,
-        budget: [],
         expenses: []
       })
       res.status(200).send({newUser})
