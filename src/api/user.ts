@@ -1,23 +1,38 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import {  getBudget, login, register, updateBudget } from '../controller/userController';
-import { verifyToken } from '../util/verify';
-import { addExpense, deleteExpense, getExpenses, resetExpenses, updateExpense } from '../controller/expenseController';
-dotenv.config()
-const userAPI = express()
+import express from "express";
+import { UserController } from "../controller/userController";
+import { SubjectController } from "../controller/subjectController";
+import { TaskController } from "../controller/taskController";
+import { TodoController } from "../controller/todoController";
 
-userAPI.post('/register', register);
-userAPI.post('/login', login);
+const router = express.Router();
 
-userAPI.get('/budget/:userId', verifyToken ,getBudget);
-userAPI.put('/budget/:userId', verifyToken ,updateBudget);
+// User routes
+router.post('/register', UserController.register);
+router.post('/login', UserController.login);
+router.get('/users/:role', UserController.getUsers);
+router.get('/users/:id', UserController.getUserById);
+router.put('/users/:id', UserController.updateUser);
+router.delete('/users/:id', UserController.deleteUser);
 
+// Subject routes
+router.post('/subjects', SubjectController.createSubject);
+router.get('/subjects', SubjectController.getSubjects);
+router.get('/subjects/:id', SubjectController.getSubjectById);
+router.put('/subjects/:id', SubjectController.updateSubject);
+router.delete('/subjects/:id', SubjectController.deleteSubject);
 
-userAPI.post('/expense/:userId', verifyToken , addExpense);
-userAPI.get('/expense/:userId', verifyToken ,getExpenses);
-userAPI.put('/expense/:expenseId', verifyToken ,updateExpense);
-userAPI.post('/expenses/reset/:userId', verifyToken ,resetExpenses);
-userAPI.delete('/expense/:expenseId', verifyToken ,deleteExpense);
+// Task routes
+router.post('/tasks', TaskController.createTask);
+router.get('/tasks', TaskController.getTasks);
+router.get('/tasks/:id', TaskController.getTaskById);
+router.put('/tasks/:id', TaskController.updateTask);
+router.delete('/tasks/:id', TaskController.deleteTask);
 
+// Todo routes
+router.post('/todos', TodoController.createTodo);
+router.get('/todos', TodoController.getTodos);
+router.get('/todos/:id', TodoController.getTodoById);
+router.put('/todos/:id', TodoController.updateTodo);
+router.delete('/todos/:id', TodoController.deleteTodo);
 
-export default userAPI
+export default router;

@@ -3,10 +3,16 @@ import bodyParser from 'body-parser';
 import userAPI from './api/user';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import http, { createServer } from 'http'; 
+import _http, { createServer } from 'http'; 
+import { emitNotification, initializeSocket } from './util/socket';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 const server = createServer(app);
+
+// Initialize Socket.IO
+const io = initializeSocket(server);
 const port = process.env.PORT || 8080;
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 app.use(bodyParser.json(), urlencodedParser);
@@ -26,7 +32,9 @@ try {
 } catch (error) {
   console.log(error);
 }
-
+setTimeout(() => {
+  emitNotification({})
+}, 5000)
 // Start the server
 server.listen(port, () => {
   console.log(`> Ready on http://localhost:${port}`);
