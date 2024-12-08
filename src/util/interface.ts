@@ -20,11 +20,14 @@ export interface ISubject {
 
 // ITask Interface
 export interface ITask {
+    subject: ISubject
+    teacher: IUser,
     user: IUser;
     value: number;
     startDate: Date;
     endDate: Date;
     title: string;
+    todo: ITodo[]
 }
 
 // ITodo Interface

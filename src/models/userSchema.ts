@@ -19,11 +19,15 @@ const subjectSchema = new Schema<ISubject>({
 
 // ITask Schema
 const taskSchema = new Schema<ITask>({
-    user: { type: Types.ObjectId, ref: "User", required: true },  // Reference to the IUser schema
-    value: { type: Number, required: true },
+    user: { type: Types.ObjectId, ref: "User", required: true },  
+    subject: { type: Types.ObjectId, ref: "Subject", required: true },  
+    teacher:  { type: Types.ObjectId, ref: "User", required: true },  
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
-    title: { type: String, required: true },
+    todo: [
+        { type: Types.ObjectId, ref: "Todo" }
+    ],
+    title: { type: String },
 });
 
 // ITodo Schema
