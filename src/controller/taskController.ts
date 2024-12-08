@@ -40,7 +40,7 @@ export class TaskController {
 
     static async getTasks(req: any, res: any) {
         try {
-            const tasks = await Task.find().populate('teacher', '_id firstName lastName middleName title').populate('subject');
+            const tasks = await Task.find().populate('teacher', '_id firstName lastName middleName title').populate('subject').populate('todo');
             res.status(200).json(tasks);
         } catch (err: any) {
             res.status(500).json({ error: err.message });

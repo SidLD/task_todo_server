@@ -3,6 +3,7 @@ import { UserController } from "../controller/userController";
 import { SubjectController } from "../controller/subjectController";
 import { TaskController } from "../controller/taskController";
 import { TodoController } from "../controller/todoController";
+import { verifyToken } from "../util/verify";
 
 const router = express.Router();
 
@@ -30,9 +31,9 @@ router.delete('/tasks/:id', TaskController.deleteTask);
 
 // Todo routes
 router.post('/todos', TodoController.createTodo);
-router.get('/todos', TodoController.getTodos);
-router.get('/todos/:id', TodoController.getTodoById);
-router.put('/todos/:id', TodoController.updateTodo);
-router.delete('/todos/:id', TodoController.deleteTodo);
+router.get('/todos',verifyToken, TodoController.getTodos);
+router.get('/tasks-todo/:id',verifyToken, TodoController.getTodoById);
+router.put('/todos/:id',verifyToken, TodoController.updateTodo);
+router.delete('/todos/:id',verifyToken, TodoController.deleteTodo);
 
 export default router;
