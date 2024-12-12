@@ -23,14 +23,14 @@ router.put('/subjects/:id', SubjectController.updateSubject);
 router.delete('/subjects/:id', SubjectController.deleteSubject);
 
 // Task routes
-router.post('/tasks', TaskController.createTask);
-router.get('/tasks', TaskController.getTasks);
-router.get('/tasks/:id', TaskController.getTaskById);
-router.put('/tasks/:id', TaskController.updateTask);
-router.delete('/tasks/:id', TaskController.deleteTask);
+router.post('/tasks',verifyToken, TaskController.createTask);
+router.get('/tasks',verifyToken, TaskController.getTasks);
+router.get('/tasks/:id',verifyToken, TaskController.getTaskById);
+router.put('/tasks/:id',verifyToken, TaskController.updateTask);
+router.delete('/tasks/:id', verifyToken, TaskController.deleteTask);
 
 // Todo routes
-router.post('/todos', TodoController.createTodo);
+router.post('/todos',verifyToken, TodoController.createTodo);
 router.get('/todos',verifyToken, TodoController.getTodos);
 router.get('/tasks-todo/:id',verifyToken, TodoController.getTodoById);
 router.put('/todos/:id',verifyToken, TodoController.updateTodo);

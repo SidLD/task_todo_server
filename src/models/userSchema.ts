@@ -28,7 +28,8 @@ const taskSchema = new Schema<ITask>({
         { type: Types.ObjectId, ref: "Todo" }
     ],
     title: { type: String },
-});
+},
+{timestamps: true});
 
 // ITodo Schema
 const todoSchema = new Schema<ITodo>({
@@ -38,7 +39,9 @@ const todoSchema = new Schema<ITodo>({
         enum: ['TO_DO', 'IN_PROGRESS', 'COMPLETED'], 
         required: true 
     },
-});
+},
+{timestamps: true}
+);
 
 // Creating Mongoose models from the schemas
 const User = mongoose.model<IUser>('User', userSchema);
