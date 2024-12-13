@@ -34,6 +34,8 @@ const taskSchema = new Schema<ITask>({
 // ITodo Schema
 const todoSchema = new Schema<ITodo>({
     name: { type: String, required: true },
+    startDate: { type: Date, required: true },
+    endDate: { type: Date, required: true },
     status: { 
         type: String, 
         enum: ['TO_DO', 'IN_PROGRESS', 'COMPLETED'], 

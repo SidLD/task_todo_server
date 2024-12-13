@@ -5,10 +5,10 @@ export class TodoController {
     // Create a new Todo and link it to a Task
     static async createTodo(req: any, res: any) {
         try {
-            const { name, status, taskId } = req.body;
+            const { name, status, taskId , startDate, endDate} = req.body;
 
             // Validate required fields
-            if (!name || !status || !taskId) {
+            if (!name || !status || !taskId || !startDate ||!endDate) {
                 return res.status(400).json({ error: 'Name, status, and taskId are required' });
             }
 
@@ -22,6 +22,8 @@ export class TodoController {
             const todo = new Todo({
                 name,
                 status,
+                startDate: startDate ? new Date(startDate) : startDate,
+                endDate: endDate ? new Date(endDate) : endDate
             });
             await todo.save();
 
@@ -64,8 +66,7 @@ export class TodoController {
             const { id } = req.params;
             const task: ITask | null = await Task.findById(id).populate('todo');
             if (task) {
-                const todos = task.todo; // Access the todo array from the populated task
-                res.status(200).json(todos); // Return the todos if found
+                res.status(200).json(task); // Return the todos if found
             } else {
                 res.status(200).json([]); // If no task is found, return an empty array
             }

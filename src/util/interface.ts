@@ -34,5 +34,7 @@ export interface ITask {
 export interface ITodo {
     _id: Types.ObjectId;  // Using ObjectId type
     name: string;
+    startDate: Date;
+    endDate: Date;
     status: 'TO_DO' | 'IN_PROGRESS' | 'COMPLETED';  // Use a union of string literals directly
 }
