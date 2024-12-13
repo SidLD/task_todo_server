@@ -4,10 +4,10 @@ import { User } from "../models/userSchema";
 export class TaskController {
     static async createTask(req: any, res: any) {
         try {
-            const { user, teacher, startDate, endDate, title, subject } = req.body;
+            const { user, teacher, title, subject } = req.body;
 
             // Check if all required fields are provided
-            if (!user || !teacher || !startDate || !endDate || !subject) {
+            if (!user || !teacher || !subject) {
                 return res.status(400).json({ error: 'All fields (user, teacher, startDate, endDate, subject) are required' });
             }
 
@@ -22,13 +22,9 @@ export class TaskController {
                 return res.status(400).json({ error: 'Teacher not found' });
             }
 
-            // Ensure that the startDate is before the endDate
-            if (new Date(startDate) >= new Date(endDate)) {
-                return res.status(400).json({ error: 'startDate must be before endDate' });
-            }
-
+         
             // Create the task and save to database
-            const task = new Task({ user, teacher, startDate, endDate, title, subject});
+            const task = new Task({ user, teacher, title, subject});
             await task.save();
 
             res.status(201).json(task); // Return the created task with a 201 status

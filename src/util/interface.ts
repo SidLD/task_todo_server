@@ -24,8 +24,6 @@ export interface ITask {
     teacher: IUser,
     user: IUser;
     value: number;
-    startDate: Date;
-    endDate: Date;
     title: string;
     todo: ITodo[]
 }

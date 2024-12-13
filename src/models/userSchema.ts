@@ -22,8 +22,6 @@ const taskSchema = new Schema<ITask>({
     user: { type: Types.ObjectId, ref: "User", required: true },  
     subject: { type: Types.ObjectId, ref: "Subject", required: true },  
     teacher:  { type: Types.ObjectId, ref: "User", required: true },  
-    startDate: { type: Date, required: true },
-    endDate: { type: Date, required: true },
     todo: [
         { type: Types.ObjectId, ref: "Todo" }
     ],
